@@ -1,10 +1,36 @@
 ﻿@page
-@model IndexModel
-@{
-    ViewData["Title"] = "Home page";
-}
+@model site_test_task.Pages.IndexModel
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h2>Сокращённые ссылки</h2>
+
+<p>
+    <a asp-page="/ShortUrls/Create" class="btn btn-success">Создать новую ссылку</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Длинный URL</th>
+            <th>Сокращённый URL</th>
+            <th>Дата создания</th>
+            <th>Переходы</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ShortUrls)
+        {
+            <tr>
+                <td>@item.OriginalUrl</td>
+                <td><a href="/@item.ShortCode" target="_blank">/@item.ShortCode</a></td>
+                <td>@item.CreatedAt.ToLocalTime()</td>
+                <td>@item.ClickCount</td>
+                <td>
+                    <form method="post" asp-page-handler="Delete" asp-route-id="@item.Id">
+                        <button type="submit" class="btn btn-danger btn-sm">Удалить</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
