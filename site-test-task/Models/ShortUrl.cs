@@ -8,7 +8,7 @@ namespace site_test_task.Models
         public int Id { get; set; }
 
         [Required]
-        [Url]
+        [Display(Name = "Длинный URL")]
         public string OriginalUrl { get; set; }
 
         public string ShortCode { get; set; }

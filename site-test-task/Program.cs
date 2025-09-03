@@ -12,7 +12,6 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         new MySqlServerVersion(new Version(8, 2)),
         mySqlOptions => mySqlOptions.EnableRetryOnFailure()
     ));
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
