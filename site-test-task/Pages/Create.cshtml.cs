@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using site_test_task.Data;
 using site_test_task.Models;
 using site_test_task.Services;
@@ -43,8 +44,15 @@ namespace site_test_task.Pages
 
 
             ShortUrl.ClickCount = 0;
-            ShortUrl.CreatedAt = DateTime.Now;
-            ShortUrl.ShortCode = shortener.GenerateShortCode();
+            ShortUrl.CreatedAt = DateTime.UtcNow;
+            string newCode = "";
+            do
+            {
+                newCode = shortener.GenerateShortCode();
+            }
+            while (await _context.ShortUrls.AnyAsync(s => s.ShortCode == newCode));
+            ShortUrl.ShortCode = newCode;
+
             _context.ShortUrls.Add(ShortUrl);
             try
             {
