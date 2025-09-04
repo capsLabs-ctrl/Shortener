@@ -8,13 +8,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using site_test_task.Data;
 using site_test_task.Models;
+using site_test_task.Services;
 
 namespace site_test_task.Pages
 {
     public class EditModel : PageModel
     {
         private readonly site_test_task.Data.AppDbContext _context;
-
+        private string alph = UrlShortenerService.alph;
         public EditModel(site_test_task.Data.AppDbContext context)
         {
             _context = context;
@@ -30,7 +31,7 @@ namespace site_test_task.Pages
                 return NotFound();
             }
 
-            var shorturl =  await _context.ShortUrls.FirstOrDefaultAsync(m => m.Id == id);
+            var shorturl = await _context.ShortUrls.FirstOrDefaultAsync(m => m.Id == id);
             if (shorturl == null)
             {
                 return NotFound();
@@ -43,8 +44,18 @@ namespace site_test_task.Pages
         // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            if (ShortUrl.ShortCode.Length != 8 || !ShortUrl.ShortCode.All(c => alph.Contains(c)))
             {
+                ModelState.AddModelError("ShortUrl.ShortCode", "Код должен состоять из 8 символов и содержать только a-z, A-Z, 0-9.");
+                return Page();
+            }
+
+            bool exists = await _context.ShortUrls
+                .AnyAsync(u => u.ShortCode == ShortUrl.ShortCode && u.Id != ShortUrl.Id);
+
+            if (exists)
+            {
+                ModelState.AddModelError("ShortUrl.ShortCode", "Такой короткий код уже существует.");
                 return Page();
             }
 
@@ -56,7 +67,7 @@ namespace site_test_task.Pages
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ShortUrlExists(ShortUrl.Id))
+                if (!_context.ShortUrls.Any(e => e.Id == ShortUrl.Id))
                 {
                     return NotFound();
                 }
@@ -67,11 +78,6 @@ namespace site_test_task.Pages
             }
 
             return RedirectToPage("./Index");
-        }
-
-        private bool ShortUrlExists(int id)
-        {
-            return _context.ShortUrls.Any(e => e.Id == id);
         }
     }
 }

@@ -24,8 +24,8 @@ public class RedirectController : Controller
 
         url.ClickCount++;
         await _db.SaveChangesAsync();
-
         return Redirect(url.OriginalUrl); // Перенаправляем на оригинальный URL
 
+        return Redirect(url.OriginalUrl);
     }
 }
