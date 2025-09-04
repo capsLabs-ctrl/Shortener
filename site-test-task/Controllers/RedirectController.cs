@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using site_test_task.Data; // твой AppDbContext
-
 [Route("/{shortCode}")]
 public class RedirectController : Controller
 {
@@ -25,6 +24,7 @@ public class RedirectController : Controller
 
         url.ClickCount++;
         await _db.SaveChangesAsync();
+        return Redirect(url.OriginalUrl); // Перенаправляем на оригинальный URL
 
         return Redirect(url.OriginalUrl);
     }
