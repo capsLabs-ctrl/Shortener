@@ -26,6 +26,11 @@
                 <td>@item.CreatedAt.ToLocalTime()</td>
                 <td>@item.ClickCount</td>
                 <td>
+                    <form method="post" asp-page-handler="Edit" asp-route-id="@item.Id">
+                        <button type="submit" class="btn btn-primary btn-sm">Изменить</button>
+                    </form>
+                </td>
+                <td>
                     <form method="post" asp-page-handler="Delete" asp-route-id="@item.Id">
                         <button type="submit" class="btn btn-danger btn-sm">Удалить</button>
                     </form>

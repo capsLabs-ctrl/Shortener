@@ -28,6 +28,15 @@ namespace site_test_task.Pages
                 .ToListAsync();
         }
 
+        public async Task<IActionResult> OnPostEditAsync(int id)
+        {
+            var entity = await _context.ShortUrls.FindAsync(id);
+            if (entity != null)
+            {
+                return RedirectToPage("/Edit", new { id });
+            }
+            return RedirectToPage();
+        }
         public async Task<IActionResult> OnPostDeleteAsync(int id)
         {
             var entity = await _context.ShortUrls.FindAsync(id);

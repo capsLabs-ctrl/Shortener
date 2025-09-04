@@ -22,7 +22,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="ShortUrl.ShortCode" class="control-label"></label>
-                <input asp-for="ShortUrl.ShortCode" class="form-control" />
+                <input asp-for="ShortUrl.ShortCode" class="form-control" maxlength="8" />
                 <span asp-validation-for="ShortUrl.ShortCode" class="text-danger"></span>
             </div>
             <div class="form-group">
