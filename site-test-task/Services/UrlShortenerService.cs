@@ -5,7 +5,7 @@ namespace site_test_task.Services
 {
     public class UrlShortenerService
     {
-        private const string alph = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        public const string alph = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         private static readonly RandomNumberGenerator rng = RandomNumberGenerator.Create();
 
         public string GenerateShortCode(int length = 8)

@@ -11,6 +11,7 @@ namespace site_test_task.Models
         [Display(Name = "Длинный URL")]
         public string OriginalUrl { get; set; }
 
+        [MaxLength(8)]
         public string ShortCode { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
